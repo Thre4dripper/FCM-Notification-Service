@@ -7,13 +7,15 @@
   "scripts": {
     "format": "prettier --write .",
     "invoke": "node src/main.js",
-    "test": "node test.js"
+    "test": "node test.js",
+    "build": "tsc"
   },
   "devDependencies": {
     "prettier": "^3.2.5"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
-    "firebase-admin": "^12.1.1"
+    "firebase-admin": "^12.1.1",
+    "typescript": "^5.7.2"
   }
 }
