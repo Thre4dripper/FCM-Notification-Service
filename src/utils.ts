@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 config();
 import admin from 'firebase-admin';
+
 throwIfMissing(process.env, [
   'FCM_PROJECT_ID',
   'FCM_PRIVATE_KEY',
@@ -15,14 +16,15 @@ admin.initializeApp({
     privateKey: process.env.FCM_PRIVATE_KEY,
   }),
 });
+
 /**
  * Throws an error if any of the keys are missing from the object
- * @param {*} obj
- * @param {string[]} keys
+ * @param obj - The object to check
+ * @param keys - The keys to check for
  * @throws {Error}
  */
-export function throwIfMissing(obj, keys) {
-  const missing = [];
+export function throwIfMissing(obj: Record<string, any>, keys: string[]): void {
+  const missing: string[] = [];
   for (let key of keys) {
     if (!(key in obj) || !obj[key]) {
       missing.push(key);
@@ -34,14 +36,17 @@ export function throwIfMissing(obj, keys) {
 }
 
 /**
- * @param {admin.messaging.Message} payload
+ * Sends a push notification
+ * @param payload - The message payload
  * @returns {Promise<string>}
  */
-export async function sendPushNotification(payload) {
+export async function sendPushNotification(
+  payload: admin.messaging.Message
+): Promise<string> {
   try {
     return await admin.messaging().send(payload);
   } catch (e) {
     console.error(e);
-    throw new Error("error on messaging ");
+    throw new Error('error on messaging');
   }
 }
