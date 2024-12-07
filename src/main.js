@@ -8,8 +8,7 @@ throwIfMissing(process.env, [
 
 export default async ({ req, res, log, error }) => {
   try {
-    throwIfMissing(req.bodyJson, ['deviceToken', 'message']);
-    throwIfMissing(req.bodyJson.message, ['title', 'body']);
+    throwIfMissing(req.bodyJson, ['deviceToken', 'data']);
   } catch (err) {
     return res.json({ ok: false, error: err.message }, 400);
   }
@@ -18,10 +17,6 @@ export default async ({ req, res, log, error }) => {
 
   try {
     const response = await sendPushNotification({
-      notification: {
-        title: req.bodyJson.message.title,
-        body: req.bodyJson.message.body,
-      },
       data: req.bodyJson.data ?? {},
       token: req.bodyJson.deviceToken,
     });

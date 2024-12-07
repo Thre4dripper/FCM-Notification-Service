@@ -3,11 +3,7 @@ import main from "./src/main.js";
 main({
     req: {
         bodyJson: {
-            deviceToken: 'deviceToken',
-            message: {
-                title: 'title',
-                body: 'body'
-            },
+            deviceToken: 'device token',
             data: {
                 key: 'value'
             }
