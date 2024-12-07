@@ -14,7 +14,6 @@ Send a push notification to a user.
 | ------------ | ------------------------------------ | -------- | ------------------ | -------------- |
 | Content-Type | The content type of the request body | Header   | `application/json` | N/A            |
 | deviceToken  | FCM device identifier                | Body     | String             | `642...7cd`    |
-| message      | Message to send                      | Body     | Object             | `{"title": "hello","body": "how are you?"}` |
 | data      | Additional data to pass                         | Body     | Object             | `{"greet": "welcome"}` |
 
 **Request**
@@ -25,10 +24,6 @@ Send a push notification to a user.
 ```json
 {
     "deviceToken": "642...7cd",
-    "message": {
-        "title": "hello",
-        "body": "how are you?"
-    },
     "data": {
         "greet": "welcome" 
     }    
@@ -105,14 +100,4 @@ A unique private key used to authenticate with FCM.
 | ------------- | ------------------------------------------------------------------------------------------------------------ |
 | Required      | Yes                                                                                                          |
 | Sample Value  | `0b6830cc66d92804e11af2153242d34211d675675`                                                                  |
-| Documentation | [FCM: SDK Setup](https://firebase.google.com/docs/admin/setup#initialize_the_sdk_in_non-google_environments) |
-
-### FCM_DATABASE_URL
-
-URL of your FCM database.
-
-| Question      | Answer                                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------------------ |
-| Required      | Yes                                                                                                          |
-| Sample Value  | `https://my-app-e398e.firebaseio.com`                                                                        |
 | Documentation | [FCM: SDK Setup](https://firebase.google.com/docs/admin/setup#initialize_the_sdk_in_non-google_environments) |
