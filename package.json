@@ -5,12 +5,15 @@
   "main": "src/main.js",
   "type": "module",
   "scripts": {
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "invoke": "node src/main.js",
+    "test": "node test.js"
   },
   "devDependencies": {
     "prettier": "^3.2.5"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "firebase-admin": "^12.1.1"
   }
 }
