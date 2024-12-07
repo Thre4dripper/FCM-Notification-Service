@@ -1,11 +1,16 @@
 {
-  "name": "fcm-notification-service",
+  "name": "push-notifications-with-fcm",
   "version": "1.0.0",
   "description": "This appwrite service is one shot solution for fcm notifications",
   "main": "src/main.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --write ."
   },
-  "author": "Ijlal Ahmad",
-  "license": "ISC"
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.1.1"
+  }
 }
