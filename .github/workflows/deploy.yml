@@ -31,12 +31,8 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      # Switch to production-only, flat node_modules (no symlinks — safe for Lambda)
-      - name: Install production dependencies
-        run: pnpm install --prod --node-linker=hoisted
-
       - name: Create deployment zip
-        run: zip -r lambda.zip dist/ node_modules/
+        run: zip lambda.zip dist/main.js
 
       # Authenticate via OIDC — no AWS_ACCESS_KEY_ID needed
       - name: Configure AWS credentials
