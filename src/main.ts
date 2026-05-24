@@ -10,7 +10,8 @@ const CORS_HEADERS = {
 throwIfMissing(process.env, ['FCM_PROJECT_ID', 'FCM_PRIVATE_KEY', 'FCM_CLIENT_EMAIL', 'API_SECRET']);
 
 function isAuthorized(event: APIGatewayProxyEvent): boolean {
-  const authHeader = event.headers['authorization'] ?? event.headers['Authorization'] ?? '';
+  const headers = event.headers ?? {};
+  const authHeader = headers['authorization'] ?? headers['Authorization'] ?? '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
   return token === process.env.API_SECRET;
 }
