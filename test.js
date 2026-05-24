@@ -1,19 +1,22 @@
-import main from './dist/main.js';
+import { handler } from './dist/main.js';
 
-main({
-  req: {
-    bodyJson: {
-      deviceToken: 'device token',
-      data: {
-        key: 'value',
-      },
+// Simulates an API Gateway POST request
+handler({
+  httpMethod: 'POST',
+  body: JSON.stringify({
+    deviceToken: 'YOUR_DEVICE_TOKEN',
+    data: {
+      title: 'Test Notification',
+      body: 'Hello from Lambda!',
     },
-  },
-  res: {
-    json: (data, status) => {
-      console.log(data, status);
-    },
-  },
-  log: console.log,
-  error: console.error,
-});
+  }),
+  headers: { 'Content-Type': 'application/json' },
+  queryStringParameters: null,
+  pathParameters: null,
+  isBase64Encoded: false,
+})
+  .then(result => {
+    console.log('Status:', result.statusCode);
+    console.log('Body:', JSON.parse(result.body));
+  })
+  .catch(console.error);

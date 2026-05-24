@@ -1,3 +1,4 @@
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { throwIfMissing, sendPushNotification } from './utils.js';
 
 const CORS_HEADERS = {
@@ -6,48 +7,56 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
-type Context = {
-  req: {
-    method: string;
-    bodyJson: {
-      deviceToken: string;
-      data: Record<string, any>;
-    };
-  };
-  res: {
-    json: (body: any, status?: number, headers?: Record<string, string>) => void;
-    send: (body: string, status?: number, headers?: Record<string, string>) => void;
-  };
-  log: (msg: any) => void;
-  error: (msg: any) => void;
-};
-
 throwIfMissing(process.env, ['FCM_PROJECT_ID', 'FCM_PRIVATE_KEY', 'FCM_CLIENT_EMAIL']);
 
-export default async ({ req, res, log, error }: Context) => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
-    return res.send('', 204, CORS_HEADERS);
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: CORS_HEADERS, body: '' };
+  }
+
+  let body: { deviceToken?: string; data?: Record<string, string> };
+
+  try {
+    body = JSON.parse(event.body ?? '{}');
+  } catch {
+    return {
+      statusCode: 400,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ ok: false, error: 'Invalid JSON body' }),
+    };
   }
 
   try {
-    throwIfMissing(req.bodyJson, ['deviceToken', 'data']);
+    throwIfMissing(body, ['deviceToken', 'data']);
   } catch (err: any) {
-    return res.json({ ok: false, error: err.message }, 400, CORS_HEADERS);
+    return {
+      statusCode: 400,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ ok: false, error: err.message }),
+    };
   }
 
-  log(`Sending message to device: ${req.bodyJson.deviceToken}`);
+  console.log(`Sending message to device: ${body.deviceToken}`);
 
   try {
     const response = await sendPushNotification({
-      data: req.bodyJson.data ?? {},
-      token: req.bodyJson.deviceToken,
+      data: body.data ?? {},
+      token: body.deviceToken!,
     });
 
-    log(`Successfully sent message: ${response}`);
-    return res.json({ ok: true, messageId: response }, 200, CORS_HEADERS);
+    console.log(`Successfully sent message: ${response}`);
+    return {
+      statusCode: 200,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ ok: true, messageId: response }),
+    };
   } catch (e: any) {
-    error(e);
-    return res.json({ ok: false, error: 'Failed to send the message' }, 500, CORS_HEADERS);
+    console.error(e);
+    return {
+      statusCode: 500,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ ok: false, error: 'Failed to send the message' }),
+    };
   }
 };
