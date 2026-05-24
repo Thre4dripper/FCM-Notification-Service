@@ -5,7 +5,7 @@ await esbuild.build({
   bundle: true,
   platform: 'node',
   target: 'node22',
-  format: 'esm',
+  format: 'cjs',
   outfile: 'dist/main.js',
   minify: true,
 });

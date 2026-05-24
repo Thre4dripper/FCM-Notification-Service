@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "AWS Lambda function for FCM push notifications via API Gateway",
   "main": "dist/main.js",
-  "type": "module",
   "license": "MIT",
   "scripts": {
     "build": "node build.mjs",

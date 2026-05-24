@@ -1,4 +1,4 @@
-import { handler } from './dist/main.js';
+const { handler } = require('./dist/main.js');
 
 // Simulates an API Gateway POST request
 handler({
