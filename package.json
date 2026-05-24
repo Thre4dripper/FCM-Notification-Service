@@ -1,17 +1,18 @@
 {
-  "name": "push-notifications-with-fcm",
+  "name": "fcm-notification-lambda",
   "version": "1.0.0",
-  "description": "This appwrite service is one shot solution for fcm notifications",
+  "description": "AWS Lambda function for FCM push notifications via API Gateway",
   "main": "dist/main.js",
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write .",
-    "invoke": "node src/main.js",
-    "test": "tsc && node test.js",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "pnpm run build && node test.js",
+    "package": "pnpm run build && pnpm install --prod --node-linker=hoisted && zip -r lambda.zip dist/ node_modules/ && pnpm install",
+    "deploy": "pnpm run package && aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://lambda.zip --region $AWS_REGION"
   },
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
     "@types/node": "^22.10.1",
     "prettier": "^3.2.5",
     "typescript": "^5.7.2"
