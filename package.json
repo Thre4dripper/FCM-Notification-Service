@@ -12,16 +12,13 @@
     "deploy": "pnpm run package && aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --zip-file fileb://lambda.zip --region $AWS_REGION"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.145",
-    "@types/node": "^22.10.1",
-    "prettier": "^3.2.5",
-    "typescript": "^5.7.2"
+    "@types/aws-lambda": "^8.10.161",
+    "@types/node": "^22.19.19",
+    "prettier": "^3.8.3",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "dotenv": "^16.4.7",
-    "firebase-admin": "^12.1.1"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": ["protobufjs"]
+    "dotenv": "^16.6.1",
+    "firebase-admin": "^12.7.0"
   }
 }
