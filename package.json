@@ -20,5 +20,8 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "firebase-admin": "^12.1.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["protobufjs"]
   }
 }
